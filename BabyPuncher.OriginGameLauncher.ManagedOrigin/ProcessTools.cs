@@ -1,9 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Management;
 using System.Runtime.InteropServices;
-using System.Drawing;
 using System.Threading.Tasks;
 
 
@@ -36,7 +35,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
                 inParameters["CommandLine"] = commandLine;
                 inParameters["ProcessStartupInformation"] = processInfo;
 
-                var result = managementClass.InvokeMethod("Create", inParameters, null);
+                managementClass.InvokeMethod("Create", inParameters, null);
             }
         }
 
@@ -69,9 +68,9 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
         public static void KillProcess(string processname, bool waitForExit, bool closeMainWindow)
         {
             Process[] processes = Process.GetProcessesByName(processname);
-            foreach (Process p in processes)
+            foreach (Process process in processes)
             {
-                KillProcess(p, waitForExit, closeMainWindow);
+                KillProcess(process, waitForExit, closeMainWindow);
             }
         }
 
@@ -79,20 +78,20 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
         {
             Process[] proc = Process.GetProcessesByName(processName);
             if (proc.Length.Equals(0)) return false;
-            else return true;
+            return true;
         }
     }
 
     public class ProcessStartWaiter
     {
-        public string processName;
+        public string ProcessName;
 
         public delegate void ProcessStartEventHandler(object sender, ProcessStartEventArgs e);
         public event ProcessStartEventHandler ProcessStart;
 
         public ProcessStartWaiter(string processName)
         {
-            this.processName = processName;
+            ProcessName = processName;
         }
 
         public void Listen()
@@ -102,14 +101,14 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
             "  FROM __InstanceCreationEvent " +
             "WITHIN  10 " +
             " WHERE TargetInstance ISA 'Win32_Process' " +
-            "   AND TargetInstance.Name = '" + processName + "'";
+            "   AND TargetInstance.Name = '" + ProcessName + "'";
 
             ManagementEventWatcher watcher = new ManagementEventWatcher(queryString);
             watcher.EventArrived += (s, e) =>
             {
                 ManagementBaseObject targetInstance = (ManagementBaseObject)e.NewEvent["targetInstance"];
                 int pid = Convert.ToInt32(targetInstance["processID"]);
-                OnProcessStart(new ProcessStartEventArgs(pid, this.processName));
+                OnProcessStart(new ProcessStartEventArgs(pid, this.ProcessName));
             };
             watcher.Start();
         }

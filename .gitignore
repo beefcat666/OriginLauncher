@@ -1,3 +1,8 @@
 /.vs
 /BabyPuncher.OriginGameLauncher.ManagedOrigin/bin
 /BabyPuncher.OriginGameLauncher.ManagedOrigin/obj
+/BabyPuncher.OriginGameLauncher.Tests/obj
+/BabyPuncher.OriginGameLauncher.Tests/bin
+/TestResults
+/BabyPuncher.OriginGameLauncher.UI/bin
+/BabyPuncher.OriginGameLauncher.UI/obj

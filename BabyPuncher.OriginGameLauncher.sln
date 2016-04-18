@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabyPuncher.OriginGameLauncher.UI", "BabyPuncher.OriginGameLauncher.UI\BabyPuncher.OriginGameLauncher.UI.csproj", "{F23EFB64-056D-4025-B2FB-363E0000AA3B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabyPuncher.OriginGameLauncher.ManagedOrigin", "BabyPuncher.OriginGameLauncher.ManagedOrigin\BabyPuncher.OriginGameLauncher.ManagedOrigin.csproj", "{847F8FFE-B578-429A-AF0D-09D14C9F207B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabyPuncher.OriginGameLauncher.Tests", "BabyPuncher.OriginGameLauncher.Tests\BabyPuncher.OriginGameLauncher.Tests.csproj", "{0D35BAA7-6262-4AE3-81A0-CABED5944E29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabyPuncher.OriginGameLauncher.UI", "BabyPuncher.OriginGameLauncher.UI\BabyPuncher.OriginGameLauncher.UI.csproj", "{FE5AA1D1-4589-40CE-A649-36DA9E2F592F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F23EFB64-056D-4025-B2FB-363E0000AA3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F23EFB64-056D-4025-B2FB-363E0000AA3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F23EFB64-056D-4025-B2FB-363E0000AA3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F23EFB64-056D-4025-B2FB-363E0000AA3B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{847F8FFE-B578-429A-AF0D-09D14C9F207B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{847F8FFE-B578-429A-AF0D-09D14C9F207B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{847F8FFE-B578-429A-AF0D-09D14C9F207B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{847F8FFE-B578-429A-AF0D-09D14C9F207B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D35BAA7-6262-4AE3-81A0-CABED5944E29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D35BAA7-6262-4AE3-81A0-CABED5944E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D35BAA7-6262-4AE3-81A0-CABED5944E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D35BAA7-6262-4AE3-81A0-CABED5944E29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE5AA1D1-4589-40CE-A649-36DA9E2F592F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE5AA1D1-4589-40CE-A649-36DA9E2F592F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE5AA1D1-4589-40CE-A649-36DA9E2F592F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE5AA1D1-4589-40CE-A649-36DA9E2F592F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
