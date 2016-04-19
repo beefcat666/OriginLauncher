@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Windows.Threading;
 using BabyPuncher.OriginGameLauncher.UI.Properties;
 using BabyPuncher.OriginGameLauncher.ManagedOrigin;
 
@@ -46,7 +47,7 @@ namespace BabyPuncher.OriginGameLauncher.UI
             DataContext = new ViewModel(detectedOriginGames.Select(x => x.Name).ToList());
             
             var lastPlayedGame = detectedOriginGames
-                .Where(x => x.Name == Settings.Default.LastPlayedGame)
+                .Where(x => x.Name == Settings.Default.Game)
                 .Select(x => x.Name)
                 .FirstOrDefault();
 
@@ -59,6 +60,20 @@ namespace BabyPuncher.OriginGameLauncher.UI
         private async Task listenOnGame()
         {
             await Task.Run(() => findRunningGame());
+            
+            while (runningGame == null)
+            {
+                Thread.Sleep(100);
+            }
+
+            runningGame.GameClose += (sender) =>
+            {
+                Application.Current.Dispatcher.BeginInvoke
+                (
+                    DispatcherPriority.Background,
+                    new Action(() => onGameClose())
+                );
+            };
         }
 
         private void findRunningGame()
@@ -67,14 +82,14 @@ namespace BabyPuncher.OriginGameLauncher.UI
 
             do
             {
-                childProcesses = GetChildProcesses(origin.OriginProcess);
+                childProcesses = getChildProcesses(origin.OriginProcess);
                 Thread.Sleep(200);
             } while (childProcesses.Count() != 1);
 
             runningGame = new Game(childProcesses.First());
         }
 
-        private List<Process> GetChildProcesses(Process process)
+        private List<Process> getChildProcesses(Process process)
         {
             var children = new List<Process>();
             var managementObjectSearcher = new ManagementObjectSearcher(String.Format("Select * From Win32_Process Where ParentProcessID={0}", process.Id));
@@ -107,26 +122,19 @@ namespace BabyPuncher.OriginGameLauncher.UI
                 LaunchButton.IsEnabled = false;
                 detectedGamesComboBox.IsEnabled = false;
             }
+            
+            SettingsManager.SaveUserSetting("BabyPuncher.OriginGameLauncher.UI.Properties.Settings", "Game", selectedGame.Name);
+            Settings.Default.Save();
 
             listenOnGame();
-
-            while (runningGame == null)
-            {
-                Thread.Sleep(100);
-            }
-
-            runningGame.GameClose += (sender) =>
-            {
-                OnGameClose();
-            };
         }
 
-        private void WindowClosed(object sender, EventArgs e)
+        private void windowClosed(object sender, EventArgs e)
         {
             origin.KillOrigin();
         }
 
-        private void OnGameSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void onGameSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedGame = detectedOriginGames
                 .Where(x => x.Name == (string)detectedGamesComboBox.SelectedValue)
@@ -134,7 +142,7 @@ namespace BabyPuncher.OriginGameLauncher.UI
             LaunchButton.IsEnabled = true;
         }
 
-        private void OnGameClose()
+        private void onGameClose()
         {
             LaunchButton.IsEnabled = true;
             detectedGamesComboBox.IsEnabled = true;

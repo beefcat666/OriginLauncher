@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:BabyPuncher.OriginGameLauncher.UI"
         mc:Ignorable="d"
         Title="Origin Game Launcher" Height="350" Width="325.667"
-        Closed="WindowClosed">
+        Closed="windowClosed">
     <Grid>
         <Button x:Name="LaunchButton" Content="Launch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="225,10,0,0" Click="LaunchButton_Click" Height="22"/>
-        <ComboBox x:Name="detectedGamesComboBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="210" ItemsSource="{Binding DetectedOriginGameNames}" SelectionChanged="OnGameSelectionChanged" />
+        <ComboBox x:Name="detectedGamesComboBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="210" ItemsSource="{Binding DetectedOriginGameNames}" SelectionChanged="onGameSelectionChanged" SelectedIndex="0"/>
 
     </Grid>
 </Window>

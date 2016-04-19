@@ -25,13 +25,25 @@ namespace BabyPuncher.OriginGameLauncher.UI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Titanfall")]
-        public string LastPlayedGame {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Game {
             get {
-                return ((string)(this["LastPlayedGame"]));
+                return ((string)(this["Game"]));
             }
             set {
-                this["LastPlayedGame"] = value;
+                this["Game"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ProcessExe {
+            get {
+                return ((string)(this["ProcessExe"]));
+            }
+            set {
+                this["ProcessExe"] = value;
             }
         }
     }
