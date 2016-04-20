@@ -14,8 +14,8 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
     {
         public string OriginPath;
         public string CommandLineOptions;
-        public bool RestartOrigin;
-        public bool ClosedSafely;
+        private bool restartOrigin;
+        private bool closedSafely;
 
         public Process OriginProcess;
 
@@ -27,34 +27,34 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
 
         public Game Game;
 
-        private static readonly string OriginLocalCacheDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\Origin\\LocalContent";
+        private static readonly string originLocalCacheDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\Origin\\LocalContent";
 
         public Origin(string commandLineOptions)
         {
             CommandLineOptions = commandLineOptions;
-            OriginClose += Origin_OriginClose;
+            OriginClose += origin_OriginClose;
         }
 
         public Origin() : this("/StartClientMinimized") { } //Minimized Origin by default
 
         #region Origin
-        private void Origin_OriginClose(object sender, OriginCloseEventArgs args)
+        private void origin_OriginClose(object sender, OriginCloseEventArgs args)
         {
             if (args.RestartOrigin) CreateUnmanagedInstance();
         }
 
         public void StartOrigin()
         {
-            OriginPath = GetOriginPath();
+            OriginPath = getOriginPath();
             if (OriginPath == null) return;
             var originProcessInfo = new ProcessStartInfo(OriginPath, CommandLineOptions);
             if (OriginRunning())  //We must relaunch Origin as a child process for Steam to properly apply the overlay hook.
             {
                 ProcessTools.KillProcess("Origin", true, false);
-                RestartOrigin = true;
+                restartOrigin = true;
             }
             OriginProcess = Process.Start(originProcessInfo);
-            ListenForUnexpectedClose();
+            listenForUnexpectedClose();
         }
 
         public static bool OriginRunning()
@@ -64,7 +64,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
             return true;
         }
 
-        private static string GetOriginPath()
+        private static string getOriginPath()
         {
             var key = Registry.LocalMachine.OpenSubKey(@"Software\Wow6432Node\Origin");
             if (key == null) return null;
@@ -73,10 +73,10 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
 
         public void KillOrigin()
         {
-            OriginClose(this, new OriginCloseEventArgs(RestartOrigin));
+            OriginClose(this, new OriginCloseEventArgs(restartOrigin));
             ProcessTools.KillProcess(OriginProcess, true, false);
             //ProcessTools.KillProcess("sonarhost", false, false);
-            ClosedSafely = true;
+            closedSafely = true;
         }
 
         public void KillOrigin(int timeout)
@@ -86,25 +86,25 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
             
         }
 
-        private async Task ListenForUnexpectedClose()
+        private async Task listenForUnexpectedClose()
         {
             await Task.Run(() => OriginProcess.WaitForExit());
-            if (!ClosedSafely && OriginUnexpectedClose != null) OriginUnexpectedClose(this);
+            if (!closedSafely && OriginUnexpectedClose != null) OriginUnexpectedClose(this);
         }
         public static void CreateUnmanagedInstance()
         {
-            ProcessTools.CreateOrphanedProcess(GetOriginPath(), "/StartClientMinimized");
+            ProcessTools.CreateOrphanedProcess(getOriginPath(), "/StartClientMinimized");
         }
         #endregion
 
         public static List<DetectedOriginGame> DetectOriginGames()
         {
-            if (!Directory.Exists(OriginLocalCacheDirectory))
+            if (!Directory.Exists(originLocalCacheDirectory))
             {
                 return null;
             }
 
-            var gameDirectories = Directory.GetDirectories(OriginLocalCacheDirectory).ToList();
+            var gameDirectories = Directory.GetDirectories(originLocalCacheDirectory).ToList();
 
             if (!gameDirectories.Any())
             {
@@ -119,7 +119,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
 
                 foreach (var mfstFile in mfstFiles)
                 {
-                    var detectedOriginGame = GetOriginGameFromMfstFile(mfstFile);
+                    var detectedOriginGame = getOriginGameFromMfstFile(mfstFile);
                     if (detectedOriginGame != null)
                     {
                         detectedOriginGames.Add(detectedOriginGame);
@@ -130,7 +130,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
             return detectedOriginGames;
         }
 
-        private static DetectedOriginGame GetOriginGameFromMfstFile(string mfstFile)
+        private static DetectedOriginGame getOriginGameFromMfstFile(string mfstFile)
         {
             var fileContents = File.ReadAllText(mfstFile);
             var nameValues = HttpUtility.ParseQueryString(fileContents);

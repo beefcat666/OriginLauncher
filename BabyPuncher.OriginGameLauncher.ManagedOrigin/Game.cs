@@ -21,10 +21,10 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
         public Game(Process gameProcess)
         {
             GameProcess = gameProcess;
-            ListenForClose();
+            listenForClose();
         }
 
-        private async Task ListenForClose()
+        private async Task listenForClose()
         {
             await Task.Run(() => GameProcess.WaitForExit());
             if (GameClose != null) GameClose(this);
