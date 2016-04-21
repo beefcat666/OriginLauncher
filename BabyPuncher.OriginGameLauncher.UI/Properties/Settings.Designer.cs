@@ -38,12 +38,36 @@ namespace BabyPuncher.OriginGameLauncher.UI.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ProcessExe {
+        public string GameProcessExe {
             get {
-                return ((string)(this["ProcessExe"]));
+                return ((string)(this["GameProcessExe"]));
             }
             set {
-                this["ProcessExe"] = value;
+                this["GameProcessExe"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Silent {
+            get {
+                return ((bool)(this["Silent"]));
+            }
+            set {
+                this["Silent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GameId {
+            get {
+                return ((string)(this["GameId"]));
+            }
+            set {
+                this["GameId"] = value;
             }
         }
     }

@@ -11,20 +11,24 @@ namespace BabyPuncher.OriginGameLauncher.UI
 {
     public partial class MainWindow
     {
-        private void LaunchButton_Click(object sender, RoutedEventArgs e)
+        private void launchButton_Click(object sender, RoutedEventArgs e)
         {
             if (selectedGame != null)
             {
+                settings.GameId = selectedGame.Id;
+                settings.Game = selectedGame.Name;
                 origin.CommandLineOptions = "/StartClientMinimized origin://LaunchGame/" + selectedGame.Id;
                 origin.StartOrigin();
-                LaunchButton.IsEnabled = false;
+                launchButton.IsEnabled = false;
                 detectedGamesComboBox.IsEnabled = false;
             }
 
-            SettingsManager.SaveUserSetting("BabyPuncher.OriginGameLauncher.UI.Properties.Settings", "Game", selectedGame.Name);
-            Settings.Default.Save();
+            SettingsModel.SaveSettings(settings);
 
-            listenOnGame();
+            if (!String.IsNullOrEmpty(settings.GameProcessExe))
+            {
+                waitForGame(settings.GameProcessExe);
+            }
         }
 
         private void windowClosed(object sender, EventArgs e)
@@ -37,13 +41,20 @@ namespace BabyPuncher.OriginGameLauncher.UI
             selectedGame = detectedOriginGames
                 .Where(x => x.Name == (string)detectedGamesComboBox.SelectedValue)
                 .FirstOrDefault();
-            LaunchButton.IsEnabled = true;
+            launchButton.IsEnabled = true;
         }
 
         private void onGameClose()
         {
-            LaunchButton.IsEnabled = true;
-            detectedGamesComboBox.IsEnabled = true;
+            if (settings.Silent)
+            {
+                Application.Current.Shutdown();
+            }
+            else
+            {
+                launchButton.IsEnabled = true;
+                detectedGamesComboBox.IsEnabled = true;
+            }
         }
     }
 }

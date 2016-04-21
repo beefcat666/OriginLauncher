@@ -31,7 +31,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
         }
     }
 
-    public class DetectedOriginGame
+    public class OriginGame
     {
         public string Id { get; set; }
         public string InstallPath { get; set; }

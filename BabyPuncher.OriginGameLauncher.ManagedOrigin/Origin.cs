@@ -97,7 +97,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
         }
         #endregion
 
-        public static List<DetectedOriginGame> DetectOriginGames()
+        public static List<OriginGame> DetectOriginGames()
         {
             if (!Directory.Exists(originLocalCacheDirectory))
             {
@@ -111,7 +111,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
                 return null;
             }
 
-            var detectedOriginGames = new List<DetectedOriginGame>();
+            var detectedOriginGames = new List<OriginGame>();
 
             foreach (var gameDirectory in gameDirectories)
             {
@@ -130,7 +130,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
             return detectedOriginGames;
         }
 
-        private static DetectedOriginGame getOriginGameFromMfstFile(string mfstFile)
+        private static OriginGame getOriginGameFromMfstFile(string mfstFile)
         {
             var fileContents = File.ReadAllText(mfstFile);
             var nameValues = HttpUtility.ParseQueryString(fileContents);
@@ -143,7 +143,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
                 return null;
             }
 
-            return new DetectedOriginGame()
+            return new OriginGame()
             {
                 Id = id,
                 InstallPath = installPath,
