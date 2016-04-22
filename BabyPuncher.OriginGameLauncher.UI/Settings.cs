@@ -25,7 +25,7 @@ namespace BabyPuncher.OriginGameLauncher.UI
             {
                 Game = Properties.Settings.Default.Game,
                 GameId = Properties.Settings.Default.GameId,
-                GameProcessExe = Properties.Settings.Default.GameProcessExe,
+                GameProcessExe = Properties.Settings.Default.GameProcessExe.Trim(),
                 Silent = Properties.Settings.Default.Silent
             };
         }
