@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using BabyPuncher.OriginGameLauncher.UI.Properties;
 
 namespace BabyPuncher.OriginGameLauncher.UI
 {
@@ -50,9 +45,9 @@ namespace BabyPuncher.OriginGameLauncher.UI
 
             foreach (SettingElement settingElement in clientSection.Settings)
             {
-                var keyValuePair = settings.Where(x => x.Key == settingElement.Name).First();
+                var settingKey = settings.Where(x => x.Key == settingElement.Name).First().Value;
                 settingElementsToRemove.Add(settingElement);
-                settingElement.Value.ValueXml.InnerText = keyValuePair.Value;
+                settingElement.Value.ValueXml.InnerText = settingKey;
                 settingElementsToAdd.Add(settingElement);
             }
 

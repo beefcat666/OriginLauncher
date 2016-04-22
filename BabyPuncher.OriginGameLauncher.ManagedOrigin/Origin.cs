@@ -77,7 +77,6 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
             {
                 OriginClose(new OriginCloseEventArgs(restartOrigin));
                 ProcessTools.KillProcess(OriginProcess, true, false);
-                //ProcessTools.KillProcess("sonarhost", false, false);
                 closedSafely = true;
             }
         }
