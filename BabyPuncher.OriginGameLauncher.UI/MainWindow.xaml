@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BabyPuncher.OriginGameLauncher.UI"
         mc:Ignorable="d"
-        Title="Origin Game Launcher" Height="350" Width="325.667"
+        Title="Origin Game Launcher" Height="82" Width="325.667"
         Closed="onWindowClosed">
     <Grid>
         <Button x:Name="launchButton" Content="Launch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="225,10,0,0" Click="onLaunchButtonClicked" Height="22"/>
