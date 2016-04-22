@@ -47,21 +47,14 @@ namespace BabyPuncher.OriginGameLauncher.UI
 
             var settingElementsToRemove = new List<SettingElement>();
             var settingElementsToAdd = new List<SettingElement>();
-            
-            settings
-                .ToList()
-                .ForEach(delegate (KeyValuePair<string, string> setting)
-                {
-                    foreach (SettingElement settingElement in clientSection.Settings)
-                    {
-                        if (settingElement.Name == setting.Key)
-                        {
-                            settingElementsToRemove.Add(settingElement);
-                            settingElement.Value.ValueXml.InnerText = setting.Value;
-                            settingElementsToAdd.Add(settingElement);
-                        }
-                    }
-                });
+
+            foreach (SettingElement settingElement in clientSection.Settings)
+            {
+                var keyValuePair = settings.Where(x => x.Key == settingElement.Name).First();
+                settingElementsToRemove.Add(settingElement);
+                settingElement.Value.ValueXml.InnerText = keyValuePair.Value;
+                settingElementsToAdd.Add(settingElement);
+            }
 
             settingElementsToRemove
                 .ForEach(delegate (SettingElement setting)
