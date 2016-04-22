@@ -13,7 +13,7 @@ namespace BabyPuncher.OriginGameLauncher.Tests
         {
             var origin = new Origin();
             origin.StartOrigin();
-            Assert.IsTrue(Origin.OriginRunning());
+            Assert.IsTrue(Origin.IsOriginRunning());
             Thread.Sleep(new TimeSpan(0, 0, 20));
             origin.KillOrigin();
         }

@@ -6,12 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace BabyPuncher.OriginGameLauncher.UI
 {
     public partial class MainWindow
     {
-        private void launchButton_Click(object sender, RoutedEventArgs e)
+        private void onLaunchButtonClicked(object sender, RoutedEventArgs e)
         {
             if (selectedGame != null)
             {
@@ -21,9 +22,18 @@ namespace BabyPuncher.OriginGameLauncher.UI
                 origin.StartOrigin();
                 launchButton.IsEnabled = false;
                 detectedGamesComboBox.IsEnabled = false;
+
+                origin.OriginUnexpectedClose += () =>
+                {
+                    Application.Current.Dispatcher.BeginInvoke
+                        (
+                            DispatcherPriority.Background,
+                            new Action(() => onOriginClosed())
+                        );
+                };
             }
 
-            SettingsModel.SaveSettings(settings);
+            settings.Save();
 
             if (!String.IsNullOrEmpty(settings.GameProcessExe))
             {
@@ -31,7 +41,7 @@ namespace BabyPuncher.OriginGameLauncher.UI
             }
         }
 
-        private void windowClosed(object sender, EventArgs e)
+        private void onWindowClosed(object sender, EventArgs e)
         {
             origin.KillOrigin();
         }
@@ -44,7 +54,7 @@ namespace BabyPuncher.OriginGameLauncher.UI
             launchButton.IsEnabled = true;
         }
 
-        private void onGameClose()
+        private void onGameClosed()
         {
             if (settings.Silent)
             {
@@ -55,6 +65,11 @@ namespace BabyPuncher.OriginGameLauncher.UI
                 launchButton.IsEnabled = true;
                 detectedGamesComboBox.IsEnabled = true;
             }
+        }
+
+        private void onOriginClosed()
+        {
+            Application.Current.Shutdown();
         }
     }
 }

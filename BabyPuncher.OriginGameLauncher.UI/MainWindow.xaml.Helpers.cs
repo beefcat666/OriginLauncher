@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Threading;
@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using BabyPuncher.OriginGameLauncher.ManagedOrigin;
-using BabyPuncher.OriginGameLauncher.UI.Properties;
 
 namespace BabyPuncher.OriginGameLauncher.UI
 {
@@ -47,12 +46,12 @@ namespace BabyPuncher.OriginGameLauncher.UI
                 Application.Current.Dispatcher.BeginInvoke
                 (
                     DispatcherPriority.Background,
-                    new Action(() => onGameClose())
+                    new Action(() => onGameClosed())
                 );
             };
         }
 
-        private async Task waitForGame(string processExeName)
+        private async void waitForGame(string processExeName)
         {
             await Task.Run(() => getGameProcessFromExeName(processExeName));
 
@@ -66,7 +65,7 @@ namespace BabyPuncher.OriginGameLauncher.UI
                 Application.Current.Dispatcher.BeginInvoke
                 (
                     DispatcherPriority.Background,
-                    new Action(() => onGameClose())
+                    new Action(() => onGameClosed())
                 );
             };
         }
@@ -81,7 +80,7 @@ namespace BabyPuncher.OriginGameLauncher.UI
                 try
                 {
                     process = getChildProcesses(origin.OriginProcess)
-                        .Where(x => x.MainModule.FileName.ToLower().Contains(exeName.ToLower()))
+                        .Where(x => string.Equals(Path.GetFileName(x.MainModule.FileName), exeName, StringComparison.OrdinalIgnoreCase))
                         .ToList();
                 }
                 catch { }

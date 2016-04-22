@@ -19,10 +19,10 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
 
         public Process OriginProcess;
 
-        public delegate void OriginCloseEvent(object sender, OriginCloseEventArgs e);
+        public delegate void OriginCloseEvent(OriginCloseEventArgs e);
         public event OriginCloseEvent OriginClose;
 
-        public delegate void OriginUnexpectedCloseEvent(object sender);
+        public delegate void OriginUnexpectedCloseEvent();
         public event OriginUnexpectedCloseEvent OriginUnexpectedClose;
 
         public Game Game;
@@ -38,7 +38,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
         public Origin() : this("/StartClientMinimized") { } //Minimized Origin by default
 
         #region Origin
-        private void origin_OriginClose(object sender, OriginCloseEventArgs args)
+        private void origin_OriginClose(OriginCloseEventArgs args)
         {
             if (args.RestartOrigin) CreateUnmanagedInstance();
         }
@@ -48,7 +48,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
             OriginPath = getOriginPath();
             if (OriginPath == null) return;
             var originProcessInfo = new ProcessStartInfo(OriginPath, CommandLineOptions);
-            if (OriginRunning())  //We must relaunch Origin as a child process for Steam to properly apply the overlay hook.
+            if (IsOriginRunning())  //We must relaunch Origin as a child process for Steam to properly apply the overlay hook.
             {
                 ProcessTools.KillProcess("Origin", true, false);
                 restartOrigin = true;
@@ -57,7 +57,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
             listenForUnexpectedClose();
         }
 
-        public static bool OriginRunning()
+        public static bool IsOriginRunning()
         {
             Process[] pname = Process.GetProcessesByName("Origin");
             if (pname.Length == 0) return false;
@@ -73,10 +73,13 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
 
         public void KillOrigin()
         {
-            OriginClose(this, new OriginCloseEventArgs(restartOrigin));
-            ProcessTools.KillProcess(OriginProcess, true, false);
-            //ProcessTools.KillProcess("sonarhost", false, false);
-            closedSafely = true;
+            if (IsOriginRunning())
+            {
+                OriginClose(new OriginCloseEventArgs(restartOrigin));
+                ProcessTools.KillProcess(OriginProcess, true, false);
+                //ProcessTools.KillProcess("sonarhost", false, false);
+                closedSafely = true;
+            }
         }
 
         public void KillOrigin(int timeout)
@@ -86,11 +89,12 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
             
         }
 
-        private async Task listenForUnexpectedClose()
+        private async void listenForUnexpectedClose()
         {
             await Task.Run(() => OriginProcess.WaitForExit());
-            if (!closedSafely && OriginUnexpectedClose != null) OriginUnexpectedClose(this);
+            if (!closedSafely && OriginUnexpectedClose != null) OriginUnexpectedClose();
         }
+
         public static void CreateUnmanagedInstance()
         {
             ProcessTools.CreateOrphanedProcess(getOriginPath(), "/StartClientMinimized");

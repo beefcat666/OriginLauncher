@@ -24,7 +24,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
             listenForClose();
         }
 
-        private async Task listenForClose()
+        private async void listenForClose()
         {
             await Task.Run(() => GameProcess.WaitForExit());
             if (GameClose != null) GameClose(this);

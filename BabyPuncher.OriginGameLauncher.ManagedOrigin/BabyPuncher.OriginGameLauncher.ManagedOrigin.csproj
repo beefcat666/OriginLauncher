@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BabyPuncher.OriginGameLauncher.ManagedOrigin</RootNamespace>
-    <AssemblyName>BabyPuncher.OriginGameLauncher.ManagedOrigin</AssemblyName>
+    <AssemblyName>ManagedOrigin</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
