@@ -32,25 +32,6 @@ namespace BabyPuncher.OriginGameLauncher.UI
             }
         }
 
-        private async Task listenOnGame()
-        {
-            await Task.Run(() => findRunningGame());
-
-            while (runningGame == null)
-            {
-                Thread.Sleep(100);
-            }
-
-            runningGame.GameClose += (sender) =>
-            {
-                Application.Current.Dispatcher.BeginInvoke
-                (
-                    DispatcherPriority.Background,
-                    new Action(() => onGameClosed())
-                );
-            };
-        }
-
         private async void waitForGame(string processExeName)
         {
             await Task.Run(() => getGameProcessFromExeName(processExeName));
@@ -87,19 +68,6 @@ namespace BabyPuncher.OriginGameLauncher.UI
             } while (process.Count() != 1); //Some games will have multiple processes initially. Wait until there is only one.
 
             runningGame = new Game(process.First());
-        }
-
-        private void findRunningGame()
-        {
-            var childProcesses = new List<Process>();
-
-            do
-            {
-                childProcesses = getChildProcesses(origin.OriginProcess);
-                Thread.Sleep(200);
-            } while (childProcesses.Count() != 1);
-
-            runningGame = new Game(childProcesses.First());
         }
 
         private List<Process> getChildProcesses(Process process)
