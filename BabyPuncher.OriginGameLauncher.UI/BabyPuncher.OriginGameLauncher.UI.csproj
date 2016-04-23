@@ -77,6 +77,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ISettings.cs" />
     <Compile Include="MainWindow.xaml.Events.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -86,10 +87,6 @@
     <Compile Include="MainWindow.xaml.ViewModel.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings.Properties.cs">
-      <DependentUpon>Settings.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -104,6 +101,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OriginLauncherSettings.cs" />
+    <Compile Include="OriginLauncherSettings.Properties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

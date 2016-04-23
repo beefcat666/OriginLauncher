@@ -4,25 +4,17 @@ using System.Linq;
 
 namespace BabyPuncher.OriginGameLauncher.UI
 {
-    public partial class Settings
+    public partial class OriginLauncherSettings : ISettings
     {
-        private KeyValuePair<string, string> gameKeyValuePair;
-        private KeyValuePair<string, string> gameIdKeyValuePair;
-        private KeyValuePair<string, string> gameProcessExeKeyValuePair;
-        private KeyValuePair<string, string> silentKeyValuePair;
-
         private static readonly string settingSection = "BabyPuncher.OriginGameLauncher.UI.Properties.Settings";
-        
-        
-        public static Settings GetSettings()
+
+        public OriginLauncherSettings()
         {
-            return new Settings()
-            {
-                Game = Properties.Settings.Default.Game,
-                GameId = Properties.Settings.Default.GameId,
-                GameProcessExe = Properties.Settings.Default.GameProcessExe.Trim(),
-                Silent = Properties.Settings.Default.Silent
-            };
+            SettingsDictionary = new Dictionary<string, string>();
+            Game = Properties.Settings.Default.Game;
+            GameId = Properties.Settings.Default.GameId;
+            GameProcessExe = Properties.Settings.Default.GameProcessExe.Trim();
+            Silent = Properties.Settings.Default.Silent;
         }
 
         public void Save()
@@ -52,13 +44,13 @@ namespace BabyPuncher.OriginGameLauncher.UI
             }
 
             settingElementsToRemove
-                .ForEach(delegate (SettingElement setting)
+                .ForEach(setting =>
                 {
                     clientSection.Settings.Remove(setting);
                 });
 
             settingElementsToAdd
-                .ForEach(delegate(SettingElement setting)
+                .ForEach(setting =>
                 {
                     clientSection.Settings.Add(setting);
                 });
