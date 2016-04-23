@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace BabyPuncher.OriginGameLauncher.UI
 {
-    public partial class OriginLauncherSettings
+    public partial class OriginGameLauncherSettings
     {
         public IDictionary<string, string> SettingsDictionary { get; }
 

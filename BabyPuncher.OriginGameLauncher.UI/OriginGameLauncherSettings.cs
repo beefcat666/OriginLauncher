@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace BabyPuncher.OriginGameLauncher.UI
 {
-    public partial class OriginLauncherSettings : ISettings
+    public partial class OriginGameLauncherSettings : ISettings
     {
         private static readonly string settingSection = "BabyPuncher.OriginGameLauncher.UI.Properties.Settings";
 
-        public OriginLauncherSettings()
+        public OriginGameLauncherSettings()
         {
             SettingsDictionary = new Dictionary<string, string>();
             Game = Properties.Settings.Default.Game;

@@ -101,8 +101,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OriginLauncherSettings.cs" />
-    <Compile Include="OriginLauncherSettings.Properties.cs" />
+    <Compile Include="OriginGameLauncherSettings.cs" />
+    <Compile Include="OriginGameLauncherSettings.Properties.cs">
+      <DependentUpon>OriginGameLauncherSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

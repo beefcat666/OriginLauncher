@@ -11,13 +11,13 @@ namespace BabyPuncher.OriginGameLauncher.UI
         private IList<OriginGame> detectedOriginGames;
         private OriginGame selectedGame;
         private Game runningGame;
-        private OriginLauncherSettings settings;
+        private OriginGameLauncherSettings settings;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            settings = new OriginLauncherSettings();
+            settings = new OriginGameLauncherSettings();
             origin = new Origin();
 
             if (settings.Silent)
