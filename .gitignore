@@ -7,3 +7,8 @@
 /BabyPuncher.OriginGameLauncher.UI/bin
 /BabyPuncher.OriginGameLauncher.UI/obj
 /BabyPuncher.OriginGameLauncher.UI/*.user
+/BabyPuncher.OriginGameLauncher.Runner/obj
+/BabyPuncher.OriginGameLauncher.Runner/bin
+/BabyPuncher.OriginGameLauncher.GameLauncher/bin
+/BabyPuncher.OriginGameLauncher.GameLauncher/obj
+/BabyPuncher.OriginGameLauncher.Runner/*.user

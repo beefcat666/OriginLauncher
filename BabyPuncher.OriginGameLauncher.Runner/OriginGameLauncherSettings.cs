@@ -2,11 +2,11 @@
 using System.Configuration;
 using System.Linq;
 
-namespace BabyPuncher.OriginGameLauncher.UI
+namespace BabyPuncher.OriginGameLauncher.Runner
 {
     public partial class OriginGameLauncherSettings : ISettings
     {
-        private static readonly string settingSection = "BabyPuncher.OriginGameLauncher.UI.Properties.Settings";
+        private static readonly string settingSection = "BabyPuncher.OriginGameLauncher.Runner.Properties.Settings";
 
         public OriginGameLauncherSettings()
         {
@@ -14,7 +14,6 @@ namespace BabyPuncher.OriginGameLauncher.UI
             Game = Properties.Settings.Default.Game;
             GameId = Properties.Settings.Default.GameId;
             GameProcessExe = Properties.Settings.Default.GameProcessExe.Trim();
-            Silent = Properties.Settings.Default.Silent;
         }
 
         public void Save()

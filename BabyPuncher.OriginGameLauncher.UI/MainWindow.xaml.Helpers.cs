@@ -1,93 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Management;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Threading;
-using BabyPuncher.OriginGameLauncher.ManagedOrigin;
 
 namespace BabyPuncher.OriginGameLauncher.UI
 {
     public partial class MainWindow
     {
-        private void launchGame()
+        private static void createBlankConfigFile()
         {
-            if (settings.Game != null)
-            {
-                origin.CommandLineOptions = "/StartClientMinimized origin://LaunchGame/" + settings.GameId;
-                origin.StartOrigin();
-            }
+            var blankConfig =
+  @"<?xml version=""1.0"" encoding=""utf-8"" ?>" + Environment.NewLine
++ @"<configuration>" + Environment.NewLine
++ @"    <configSections>" + Environment.NewLine
++ @"        <sectionGroup name=""userSettings"" type=""System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"" >" + Environment.NewLine
++ @"            <section name=""BabyPuncher.OriginGameLauncher.Runner.Properties.Settings"" type=""System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"" allowExeDefinition=""MachineToLocalUser"" requirePermission=""false"" />" + Environment.NewLine
++ @"        </sectionGroup>" + Environment.NewLine
++ @"    </configSections>" + Environment.NewLine
++ @"    <startup> " + Environment.NewLine
++ @"        <supportedRuntime version=""v4.0"" sku="".NETFramework,Version=v4.5.2"" />" + Environment.NewLine
++ @"    </startup>" + Environment.NewLine
++ @"    <userSettings>" + Environment.NewLine
++ @"        <BabyPuncher.OriginGameLauncher.Runner.Properties.Settings>" + Environment.NewLine
++ @"            <setting name=""Game"" serializeAs=""String"">" + Environment.NewLine
++ @"                <value></value>" + Environment.NewLine
++ @"            </setting>" + Environment.NewLine
++ @"            <setting name=""GameId"" serializeAs=""String"">" + Environment.NewLine
++ @"                <value></value>" + Environment.NewLine
++ @"            </setting>" + Environment.NewLine
++ @"            <setting name=""GameProcessExe"" serializeAs=""String"">" + Environment.NewLine
++ @"                <value></value>" + Environment.NewLine
++ @"            </setting>" + Environment.NewLine
++ @"        </BabyPuncher.OriginGameLauncher.Runner.Properties.Settings>" + Environment.NewLine
++ @"    </userSettings>" + Environment.NewLine
++ @"</configuration>";
 
-            if (!String.IsNullOrEmpty(settings.GameProcessExe))
-            {
-                waitForGame(settings.GameProcessExe);
-            }
-            else
-            {
-                Application.Current.Shutdown();
-            }
+            File.WriteAllText(configFileName, blankConfig);
         }
 
-        private async void waitForGame(string processExeName)
-        {
-            await Task.Run(() => getGameProcessFromExeName(processExeName));
-
-            while (runningGame == null)
-            {
-                Thread.Sleep(200);
-            }
-
-            runningGame.GameClose += (sender) =>
-            {
-                Application.Current.Dispatcher.BeginInvoke
-                (
-                    DispatcherPriority.Background,
-                    new Action(() => onGameClosed())
-                );
-            };
-        }
-
-        private void getGameProcessFromExeName(string exeName)
-        {
-            List<Process> process = null;  
-
-            do
-            {
-                Thread.Sleep(200);
-                try
-                {
-                    process = getChildProcesses(origin.OriginProcess)
-                        .Where(x => string.Equals(Path.GetFileName(x.MainModule.FileName), exeName, StringComparison.OrdinalIgnoreCase))
-                        .ToList();
-                }
-                catch { }
-            } while (process.Count() != 1); //Some games will have multiple processes initially. Wait until there is only one.
-
-            runningGame = new Game(process.First());
-        }
-
-        private List<Process> getChildProcesses(Process process)
-        {
-            var children = new List<Process>();
-            var managementObjectSearcher = new ManagementObjectSearcher
-                (String.Format("Select * From Win32_Process Where ParentProcessID={0}", process.Id));
-
-            foreach (ManagementObject managementObject in managementObjectSearcher.Get())
-            {
-                try
-                {
-                    var childProcess = Process.GetProcessById(Convert.ToInt32(managementObject["ProcessID"]));
-                    children.Add(childProcess);
-                }
-                catch { }   //Sometimes origin runs a few processes with short lifespans that can trigger 
-                            //exceptions when we try to access them after they die
-            }
-
-            return children;
-        }
     }
 }

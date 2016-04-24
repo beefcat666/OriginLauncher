@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BabyPuncher.OriginGameLauncher.UI
+namespace BabyPuncher.OriginGameLauncher.Runner
 {
     public interface ISettings
     {

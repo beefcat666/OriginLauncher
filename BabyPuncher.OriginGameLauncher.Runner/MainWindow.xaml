@@ -1,0 +1,23 @@
+﻿<Window x:Class="BabyPuncher.OriginGameLauncher.Runner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BabyPuncher.OriginGameLauncher.Runner"
+        mc:Ignorable="d"
+        Title="Origin Game Launcher" Height="166" Width="405"
+        Closed="onWindowClosed">
+    <Grid>
+        <Label x:Name="waitingLabel" Content="Waiting for game to start" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" FontSize="29.333"/>
+        <TextBlock x:Name="helpTextBlock" HorizontalAlignment="Left" Margin="10,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+            Still seeing this even after quitting your game?
+            <LineBreak />
+            I must not have been able to find your game process in memory.
+            <LineBreak />
+            Run the configurator again and make sure "Game EXE" is set correctly.
+            <LineBreak />
+            In the meantime, close this window and I'll take care of Origin for you.
+        </TextBlock>
+
+    </Grid>
+</Window>

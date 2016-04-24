@@ -9,10 +9,7 @@ namespace BabyPuncher.OriginGameLauncher.UI
     public class ViewModel
     {
         public IList<string> DetectedOriginGameNames { get; set; }
-
-        public ViewModel(IList<string> detectedOriginGameNames)
-        {
-            DetectedOriginGameNames = detectedOriginGameNames;
-        }
+        public string GameExeFileName { get; set; }
+        public string Game { get; set; }
     }
 }

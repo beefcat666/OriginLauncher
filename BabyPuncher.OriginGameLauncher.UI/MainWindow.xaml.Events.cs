@@ -1,71 +1,68 @@
-﻿using System;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
+using Microsoft.Win32;
 
 namespace BabyPuncher.OriginGameLauncher.UI
 {
     public partial class MainWindow
     {
-        private void onLaunchButtonClicked(object sender, RoutedEventArgs e)
+        private void onTestButtonClicked(object sender, RoutedEventArgs e)
         {
-            if (selectedGame != null)
-            {
-                settings.GameId = selectedGame.Id;
-                settings.Game = selectedGame.Name;
-                origin.CommandLineOptions = "/StartClientMinimized origin://LaunchGame/" + selectedGame.Id;
-                origin.StartOrigin();
-                launchButton.IsEnabled = false;
-                detectedGamesComboBox.IsEnabled = false;
+            selectedGame = detectedOriginGames
+                .FirstOrDefault(x => x.Name == (string)detectedGamesComboBox.SelectedValue);
 
-                origin.OriginUnexpectedClose += () =>
-                {
-                    Application.Current.Dispatcher.BeginInvoke
-                        (
-                            DispatcherPriority.Background,
-                            new Action(() => onOriginClosed())
-                        );
-                };
-            }
-
+            settings.Game = selectedGame.Name;
+            settings.GameId = selectedGame.Id;
+            settings.GameId = selectedGame.Id;
+            settings.GameProcessExe = gameExeTextBox.Text;
             settings.Save();
 
-            if (!String.IsNullOrEmpty(settings.GameProcessExe))
+            var runner = new ProcessStartInfo()
             {
-                waitForGame(settings.GameProcessExe);
+                FileName = "OGLRunner.exe"
+            };
+
+            using (Process process = Process.Start(runner))
+            {
+                Hide();
+                process.WaitForExit();
+                Show();
             }
+
         }
 
-        private void onWindowClosed(object sender, EventArgs e)
+        private void onSaveButtonClicked(object sender, RoutedEventArgs e)
         {
-            origin.KillOrigin();
+            selectedGame = detectedOriginGames
+                .FirstOrDefault(x => x.Name == (string)detectedGamesComboBox.SelectedValue);
+
+            settings.Game = selectedGame.Name;
+            settings.GameId = selectedGame.Id;
+            settings.GameId = selectedGame.Id;
+            settings.GameProcessExe = gameExeTextBox.Text;
+            settings.Save();
         }
 
         private void onGameSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedGame = detectedOriginGames
-                .Where(x => x.Name == (string)detectedGamesComboBox.SelectedValue)
-                .FirstOrDefault();
-            launchButton.IsEnabled = true;
+            gameExeTextBox.Text = string.Empty;
+            testButton.IsEnabled = true;
         }
 
-        private void onGameClosed()
+        private void onBrowseButtonClicked(object sender, RoutedEventArgs e)
         {
-            if (settings.Silent)
+            OpenFileDialog openFileDialog = new OpenFileDialog()
             {
-                Application.Current.Shutdown();
-            }
-            else
-            {
-                launchButton.IsEnabled = true;
-                detectedGamesComboBox.IsEnabled = true;
-            }
-        }
+                Filter = "Executable Files (*.exe)|*.exe"
+            };
 
-        private void onOriginClosed()
-        {
-            Application.Current.Shutdown();
+            openFileDialog.ShowDialog();
+
+            var result = Path.GetFileName(openFileDialog.FileName);
+            gameExeTextBox.Text = (!string.IsNullOrWhiteSpace(result)) ? result : gameExeTextBox.Text;
         }
     }
 }

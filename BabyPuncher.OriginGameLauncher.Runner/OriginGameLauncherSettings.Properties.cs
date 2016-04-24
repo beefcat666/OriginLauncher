@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BabyPuncher.OriginGameLauncher.UI
+namespace BabyPuncher.OriginGameLauncher.Runner
 {
     public partial class OriginGameLauncherSettings
     {
@@ -24,12 +24,6 @@ namespace BabyPuncher.OriginGameLauncher.UI
         {
             get { return SettingsDictionary["GameProcessExe"]; }
             set { SettingsDictionary["GameProcessExe"] = value ?? string.Empty; }
-        }
-
-        public bool Silent
-        {
-            get { return Boolean.Parse(SettingsDictionary["Silent"]); }
-            set { SettingsDictionary["Silent"] = value.ToString(); }
         }
     }
 }

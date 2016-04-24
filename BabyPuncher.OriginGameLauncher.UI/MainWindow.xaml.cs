@@ -1,34 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using BabyPuncher.OriginGameLauncher.ManagedOrigin;
+using BabyPuncher.OriginGameLauncher.Runner;
 
 namespace BabyPuncher.OriginGameLauncher.UI
 {
     public partial class MainWindow : Window
     {
-        private Origin origin;
         private IList<OriginGame> detectedOriginGames;
         private OriginGame selectedGame;
-        private Game runningGame;
         private OriginGameLauncherSettings settings;
+        private static readonly string configFileName = "OGLRunner.exe.config";
 
         public MainWindow()
         {
+            if (!File.Exists(configFileName))
+            {
+                createBlankConfigFile();
+            }
+
+            AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", configFileName);
             InitializeComponent();
 
             settings = new OriginGameLauncherSettings();
-            origin = new Origin();
-
-            if (settings.Silent)
-            {
-                IsEnabled = false;
-                Hide();
-                launchGame();
-            }
-
-            launchButton.IsEnabled = false;
+            testButton.IsEnabled = false;
             detectedOriginGames = Origin.DetectOriginGames();
+
+
 
             if (detectedOriginGames == null)
             {
@@ -38,7 +39,12 @@ namespace BabyPuncher.OriginGameLauncher.UI
                 return;
             }
 
-            DataContext = new ViewModel(detectedOriginGames.Select(x => x.Name).ToList());
+            DataContext = new ViewModel()
+            {
+                DetectedOriginGameNames = detectedOriginGames.Select(x => x.Name).ToList(),
+                GameExeFileName = settings.GameProcessExe,
+                Game = settings.Game
+            };
         }
     }
 }

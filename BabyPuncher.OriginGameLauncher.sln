@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabyPuncher.OriginGameLaunc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabyPuncher.OriginGameLauncher.UI", "BabyPuncher.OriginGameLauncher.UI\BabyPuncher.OriginGameLauncher.UI.csproj", "{FE5AA1D1-4589-40CE-A649-36DA9E2F592F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabyPuncher.OriginGameLauncher.Runner", "BabyPuncher.OriginGameLauncher.Runner\BabyPuncher.OriginGameLauncher.Runner.csproj", "{C43B6AE5-2501-4882-BC53-017465CA6006}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FE5AA1D1-4589-40CE-A649-36DA9E2F592F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE5AA1D1-4589-40CE-A649-36DA9E2F592F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE5AA1D1-4589-40CE-A649-36DA9E2F592F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C43B6AE5-2501-4882-BC53-017465CA6006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C43B6AE5-2501-4882-BC53-017465CA6006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C43B6AE5-2501-4882-BC53-017465CA6006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C43B6AE5-2501-4882-BC53-017465CA6006}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

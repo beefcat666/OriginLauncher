@@ -5,10 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BabyPuncher.OriginGameLauncher.UI"
         mc:Ignorable="d"
-        Title="Origin Game Launcher" Height="82" Width="325.667"
-        Closed="onWindowClosed">
+        Title="Origin Game Launcher" Height="194.666" Width="325.667">
     <Grid>
-        <Button x:Name="launchButton" Content="Launch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="225,10,0,0" Click="onLaunchButtonClicked" Height="22"/>
-        <ComboBox x:Name="detectedGamesComboBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="210" ItemsSource="{Binding DetectedOriginGameNames}" SelectionChanged="onGameSelectionChanged" SelectedIndex="0"/>
+        <Button x:Name="testButton" Content="Test" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="225,10,0,0" Click="onTestButtonClicked" Height="22"/>
+        <ComboBox x:Name="detectedGamesComboBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="210" ItemsSource="{Binding DetectedOriginGameNames}" SelectionChanged="onGameSelectionChanged" SelectedValue="{Binding Game}"/>
+        <GroupBox x:Name="gameExeGroupBox" Header="Game EXE File" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top" Height="86" Width="290">
+            <Grid HorizontalAlignment="Left" Height="69" Margin="0,0,-2,-5" VerticalAlignment="Top" Width="280">
+                <TextBox x:Name="gameExeTextBox" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding GameExeFileName}" VerticalAlignment="Top" Width="260"/>
+                <Button x:Name="browseButton" Content="Browse" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Width="75" Click="onBrowseButtonClicked" />
+            </Grid>
+        </GroupBox>
+        <Button x:Name="saveButton" Content="Save Configuration" HorizontalAlignment="Left" Margin="10,123,0,0" VerticalAlignment="Top" Width="290" Click="onSaveButtonClicked"/>
     </Grid>
 </Window>
