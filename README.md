@@ -15,6 +15,7 @@ Setup:
 Notes:
 
  *To reset your config, just delete OGLRunner.exe.config. A new config file will be created upon running the configurator.
+ 
  *Compatibility with Battlefield games (BF3, BF4, and BF Hardline) is slightly iffy. I have no plans to improve the user expereience here. Users wanting to run these games through steam should check out Battlelogium (https://github.com/Battlelogium/Battlelogium/releases), as it properly integrates with the Battlelog web launcher.
 
 
