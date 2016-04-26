@@ -1,5 +1,14 @@
 # OriginLauncher v1.0
 
+## Why?
+You might be wondering what good this is. After all, you can just add Origin.exe, or your game's executable file directly to Steam as a non-Steam game.
+
+I did exaxtly those things for a few years and while it "works", I wouldn't call either experience ideal. In both cases, you have to manually manage Origin. When you're done playing a game, you need to quit Origin before the Steam overlay hook is released and usable for another game.
+
+The goal of OriginGameLauncher is to manage Origin for you. When configured properly, OGL monitors your game and safely exits Origin when you're done, freeing up the Steam hook for your next game. OGL also starts the Origin client minimized, so you don't even have to think about it.
+
+These features are especially useful for users of Steam Big Picture mode and Steam Link/In Home Streaming.
+
 ## Setup
 1. Extract to a safe location (such as the installation folder of the game you wish to use it with)
 2. Run OGLConfigurator.exe
