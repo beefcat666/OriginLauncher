@@ -6,7 +6,7 @@ namespace BabyPuncher.OriginGameLauncher.Runner
 {
     public partial class OriginGameLauncherSettings
     {
-        public IDictionary<string, string> SettingsDictionary { get; }
+        public IDictionary<string, string> SettingsDictionary { get; private set; }
 
         public string Game
         {
