@@ -36,23 +36,15 @@ namespace BabyPuncher.OriginGameLauncher.Runner
 
             foreach (SettingElement settingElement in clientSection.Settings)
             {
-                var settingKey = settings.Where(x => x.Key == settingElement.Name).First().Value;
+                var settingKey = settings.First(x => x.Key == settingElement.Name).Value;
                 settingElementsToRemove.Add(settingElement);
                 settingElement.Value.ValueXml.InnerText = settingKey;
                 settingElementsToAdd.Add(settingElement);
             }
 
-            settingElementsToRemove
-                .ForEach(setting =>
-                {
-                    clientSection.Settings.Remove(setting);
-                });
+            settingElementsToRemove.ForEach(clientSection.Settings.Remove);
 
-            settingElementsToAdd
-                .ForEach(setting =>
-                {
-                    clientSection.Settings.Add(setting);
-                });
+            settingElementsToAdd.ForEach(clientSection.Settings.Add);
 
             config.Save(ConfigurationSaveMode.Full);
         }

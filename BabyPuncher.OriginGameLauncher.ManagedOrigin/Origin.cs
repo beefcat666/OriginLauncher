@@ -12,10 +12,13 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
 {
     public class Origin
     {
-        public string OriginPath;
-        public string CommandLineOptions;
         private bool restartOrigin;
         private bool closedSafely;
+
+        private static readonly string originLocalCacheDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\Origin\\LocalContent";
+
+        public string OriginPath;
+        public string CommandLineOptions;
 
         public Process OriginProcess;
 
@@ -24,11 +27,7 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
 
         public delegate void OriginUnexpectedCloseEvent();
         public event OriginUnexpectedCloseEvent OriginUnexpectedClose;
-
-        public Game Game;
-
-        private static readonly string originLocalCacheDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\Origin\\LocalContent";
-
+        
         public Origin(string commandLineOptions)
         {
             CommandLineOptions = commandLineOptions;
@@ -116,19 +115,19 @@ namespace BabyPuncher.OriginGameLauncher.ManagedOrigin
 
             var detectedOriginGames = new List<OriginGame>();
 
-            foreach (var gameDirectory in gameDirectories)
+            gameDirectories.ForEach(gameDirectory =>
             {
                 var mfstFiles = Directory.GetFiles(gameDirectory, "*.mfst");
 
-                foreach (var mfstFile in mfstFiles)
+                mfstFiles.ToList().ForEach(mfstFile =>
                 {
                     var detectedOriginGame = getOriginGameFromMfstFile(mfstFile);
                     if (detectedOriginGame != null)
                     {
                         detectedOriginGames.Add(detectedOriginGame);
                     }
-                }
-            }
+                });
+            });
 
             return detectedOriginGames;
         }

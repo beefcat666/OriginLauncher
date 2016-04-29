@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using BabyPuncher.OriginGameLauncher.ManagedOrigin;
 
 namespace BabyPuncher.OriginGameLauncher.Runner
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private Origin origin;
