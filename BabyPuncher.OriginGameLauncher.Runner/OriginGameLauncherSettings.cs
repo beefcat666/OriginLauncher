@@ -43,7 +43,6 @@ namespace BabyPuncher.OriginGameLauncher.Runner
             }
 
             settingElementsToRemove.ForEach(clientSection.Settings.Remove);
-
             settingElementsToAdd.ForEach(clientSection.Settings.Add);
 
             config.Save(ConfigurationSaveMode.Full);
